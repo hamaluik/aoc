@@ -1,0 +1,11 @@
+[package]
+name = "aoc2023"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rayon = "1"
+regex = "1"
+anyhow = "1"
+termcolor = "1"
+
