@@ -11,6 +11,7 @@ mod day04;
 mod day05;
 mod day06;
 mod day07;
+mod day08;
 
 #[derive(Copy, Clone)]
 enum Status {
@@ -63,6 +64,7 @@ fn main() -> Result<()> {
                 (5, Some(input)) => (day05::run(&input), true),
                 (6, Some(input)) => (day06::run(&input), true),
                 (7, Some(input)) => (day07::run(&input), true),
+                (8, Some(input)) => (day08::run(&input), true),
                 _ => ((None, None), has_input),
             }
         })
