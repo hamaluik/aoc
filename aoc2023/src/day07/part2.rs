@@ -3,8 +3,8 @@ use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Hash, Copy, Clone)]
 enum Card {
+    Joker,
     Number(u8),
-    Jack,
     Queen,
     King,
     Ace,
@@ -13,12 +13,12 @@ enum Card {
 impl Ord for Card {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         match (self, other) {
+            (Card::Joker, Card::Joker) => std::cmp::Ordering::Equal,
+            (Card::Joker, _) => std::cmp::Ordering::Less,
+            (_, Card::Joker) => std::cmp::Ordering::Greater,
             (Card::Number(a), Card::Number(b)) => a.cmp(b),
             (Card::Number(_), _) => std::cmp::Ordering::Less,
             (_, Card::Number(_)) => std::cmp::Ordering::Greater,
-            (Card::Jack, Card::Jack) => std::cmp::Ordering::Equal,
-            (Card::Jack, _) => std::cmp::Ordering::Less,
-            (_, Card::Jack) => std::cmp::Ordering::Greater,
             (Card::Queen, Card::Queen) => std::cmp::Ordering::Equal,
             (Card::Queen, _) => std::cmp::Ordering::Less,
             (_, Card::Queen) => std::cmp::Ordering::Greater,
@@ -33,8 +33,8 @@ impl Ord for Card {
 impl Card {
     fn parse(c: char) -> Self {
         match c {
+            'J' => Card::Joker,
             'T' => Card::Number(10),
-            'J' => Card::Jack,
             'Q' => Card::Queen,
             'K' => Card::King,
             'A' => Card::Ace,
@@ -68,9 +68,9 @@ impl std::fmt::Display for Hand {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for &card in &self.cards {
             match card {
+                Card::Joker => write!(f, "J")?,
                 Card::Number(n) if n < 10 => write!(f, "{}", n)?,
                 Card::Number(10) => write!(f, "T")?,
-                Card::Jack => write!(f, "J")?,
                 Card::Queen => write!(f, "Q")?,
                 Card::King => write!(f, "K")?,
                 Card::Ace => write!(f, "A")?,
@@ -98,10 +98,8 @@ impl std::fmt::Debug for Hand {
 
 impl PartialOrd for Hand {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        //eprintln!("comparing {self} to {other}");
         match self.hand_type.cmp(&other.hand_type) {
             std::cmp::Ordering::Equal => {
-                //eprintln!("hand types are equal");
                 for i in 0..5 {
                     match self.cards[i].cmp(&other.cards[i]) {
                         std::cmp::Ordering::Equal => {}
@@ -111,7 +109,6 @@ impl PartialOrd for Hand {
                 Some(std::cmp::Ordering::Equal)
             }
             o => {
-                //eprintln!("{o:#?}");
                 Some(o)
             }
         }
@@ -140,24 +137,50 @@ impl Hand {
         for &card in cards {
             hashmap.entry(card).and_modify(|e| *e += 1).or_insert(1);
         }
+        let joker_count = hashmap.remove(&Card::Joker).unwrap_or(0);
         let mut counts = hashmap.values().collect::<Vec<_>>();
         debug_assert!(counts.len() <= 5);
         counts.sort();
 
-        match counts.as_slice() {
-            [1, 1, 1, 1, 1] => HandType::HighCard,
-            [1, 1, 1, 2] => HandType::OnePair,
-            [1, 2, 2] => HandType::TwoPair,
-            [1, 1, 3] => HandType::ThreeOfAKind,
-            [2, 3] => HandType::FullHouse,
-            [1, 4] => HandType::FourOfAKind,
-            [5] => HandType::FiveOfAKind,
-            _ => panic!("invalid hand"),
+        if joker_count == 0 {
+            match counts.as_slice() {
+                [1, 1, 1, 1, 1] => HandType::HighCard,
+                [1, 1, 1, 2] => HandType::OnePair,
+                [1, 2, 2] => HandType::TwoPair,
+                [1, 1, 3] => HandType::ThreeOfAKind,
+                [2, 3] => HandType::FullHouse,
+                [1, 4] => HandType::FourOfAKind,
+                [5] => HandType::FiveOfAKind,
+                _ => panic!("invalid hand"),
+            }
+        }
+        else {
+            match counts.len() {
+                0 | 1 => HandType::FiveOfAKind,
+                2 => {
+                    if counts[0] == &1 {
+                        HandType::FourOfAKind
+                    }
+                    else {
+                        HandType::FullHouse
+                    }
+                }
+                3 => {
+                    if counts[0] == &1 {
+                        HandType::ThreeOfAKind
+                    }
+                    else {
+                        HandType::TwoPair
+                    }
+                }
+                4 => HandType::OnePair,
+                _ => panic!("invalid hand: {}; cards: {cards:?}", counts.len()),
+            }
         }
     }
 }
 
-pub fn part1(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     let mut hands = input
         .par_lines()
         .map_with(HashMap::new(), |mut hashmap, line| {
@@ -165,10 +188,6 @@ pub fn part1(input: &str) -> usize {
         })
         .collect::<Vec<_>>();
     hands.sort();
-    //eprintln!("hands:");
-    // for (i, hand) in hands.iter().enumerate() {
-        //eprintln!("{:02} {hand} => {}", i + 1, (i + 1) * hand.bid);
-    // }
 
     hands
         .into_iter()
@@ -190,6 +209,7 @@ QQQJA 483
 
     #[test]
     fn day07_part1_correct_ordering() {
+        assert!(Card::Joker < Card::Number(2));
         assert!(Card::Number(2) < Card::Number(3));
         assert!(Card::Number(3) < Card::Number(4));
         assert!(Card::Number(4) < Card::Number(5));
@@ -198,8 +218,7 @@ QQQJA 483
         assert!(Card::Number(7) < Card::Number(8));
         assert!(Card::Number(8) < Card::Number(9));
         assert!(Card::Number(9) < Card::Number(10));
-        assert!(Card::Number(10) < Card::Jack);
-        assert!(Card::Jack < Card::Queen);
+        assert!(Card::Number(10) < Card::Queen);
         assert!(Card::Queen < Card::King);
         assert!(Card::King < Card::Ace);
 
@@ -212,10 +231,9 @@ QQQJA 483
     }
 
     #[test]
-    fn day07_part1_can_parse_hand() {
+    fn day07_part2_can_parse_hand() {
         let mut hashmap: HashMap<Card, u8> = HashMap::new();
 
-        //eprintln!("Parsing 32T3K 765");
         let hand = Hand::parse("32T3K 765", &mut hashmap);
         assert_eq!(
             hand,
@@ -232,20 +250,19 @@ QQQJA 483
             }
         );
 
-        //eprintln!("Parsing QQQJA 483");
         let hand = Hand::parse("QQQJA 483", &mut hashmap);
         assert_eq!(
             hand,
             Hand {
-                cards: [Card::Queen, Card::Queen, Card::Queen, Card::Jack, Card::Ace],
-                hand_type: HandType::ThreeOfAKind,
+                cards: [Card::Queen, Card::Queen, Card::Queen, Card::Joker, Card::Ace],
+                hand_type: HandType::FourOfAKind,
                 bid: 483
             }
         );
     }
 
     #[test]
-    fn day07_part1_can_order_hands() {
+    fn day07_part2_can_order_hands() {
         let mut hashmap: HashMap<Card, u8> = HashMap::new();
         let hand1 = Hand::parse("32T3K 765", &mut hashmap);
         let hand2 = Hand::parse("T55J5 684", &mut hashmap);
@@ -254,13 +271,14 @@ QQQJA 483
         let hand5 = Hand::parse("QQQJA 483", &mut hashmap);
         let mut hands = vec![hand1, hand2, hand3, hand4, hand5];
         hands.sort();
-        assert_eq!(hands, vec![hand1, hand4, hand3, hand2, hand5]);
+        assert_eq!(hands, vec![hand1, hand3, hand2, hand5, hand4]);
     }
 
     #[test]
-    fn day07_sample_part1() {
-        assert_eq!(part1(SAMPLE), 6440);
+    fn day07_sample_part2() {
+        assert_eq!(part2(SAMPLE), 5905);
     }
 }
+
 
 
