@@ -6,7 +6,7 @@ fn roots(a: f64, b: f64, c: f64) -> (f64, f64) {
     (x1.min(x2), x1.max(x2))
 }
 
-fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     let mut lines = input.lines();
     const ACCELERATION: usize = 1;
     let race_duration = lines
@@ -56,7 +56,7 @@ fn part1(input: &str) -> usize {
     .fold(1, |acc, count| acc * count)
 }
 
-fn part2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     let mut lines = input.lines();
     const ACCELERATION: usize = 1;
     let race_duration = lines

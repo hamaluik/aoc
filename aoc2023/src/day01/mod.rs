@@ -56,7 +56,7 @@ fn find_number_rev(line: &str) -> Option<usize> {
         .map(|x| x.2)
 }
 
-fn part2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     input.lines().filter_map(|l| {
         let left = find_number_fwd(l);
         let right = find_number_rev(l);

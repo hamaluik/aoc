@@ -1,4 +1,4 @@
-fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     input
         .lines()
         .map(|line| {
@@ -18,7 +18,7 @@ fn part1(input: &str) -> usize {
         }).sum()
 }
 
-fn part2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     let mut lines: Vec<(&str, usize)> = Vec::default();
     for line in input.lines() {
         let mut parts = line.splitn(2, '|');

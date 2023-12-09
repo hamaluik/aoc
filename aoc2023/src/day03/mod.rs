@@ -14,7 +14,7 @@ fn is_adjacent((sx, sy): (usize, usize), (nx1, ny): (usize, usize), xlen: usize)
     }
 }
 
-fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     let symbol_locations = input
         .lines()
         .enumerate()
@@ -56,7 +56,7 @@ fn is_gear(c: char) -> bool {
     c == '*'
 }
 
-fn part2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     let symbol_locations = input
         .lines()
         .enumerate()

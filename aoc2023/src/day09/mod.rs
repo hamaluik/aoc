@@ -60,11 +60,11 @@ fn predict_backward(items: Vec<isize>) -> isize {
     items.first().unwrap() - dx
 }
 
-fn part1(input: &str) -> isize {
+pub fn part1(input: &str) -> isize {
     parse(input).into_par_iter().map(predict_forward).sum()
 }
 
-fn part2(input: &str) -> isize {
+pub fn part2(input: &str) -> isize {
     parse(input).into_par_iter().map(predict_backward).sum()
 }
 

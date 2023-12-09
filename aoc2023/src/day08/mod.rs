@@ -37,7 +37,7 @@ fn parse(input: &str) -> (Vec<Direction>, HashMap<&str, (&str, &str)>) {
     (directions.collect(), nodes)
 }
 
-fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     let (directions, nodes) = parse(input);
     let mut current = "AAA";
     let mut i = 0;
@@ -67,7 +67,7 @@ fn lcm<I: IntoIterator<Item = usize>>(iter: I) -> usize {
     iter.into_iter().fold(1, |a, b| a * b / gcd(a, b))
 }
 
-fn part2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     let (directions, nodes) = parse(input);
     let nodes = nodes
         .keys()

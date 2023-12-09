@@ -3,9 +3,53 @@ name = "aoc2023"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "aoc2023"
+
+[[bin]]
+name = "aoc2023"
+
 [dependencies]
 rayon = "1"
 regex = "1"
 anyhow = "1"
 termcolor = "1"
 
+[dev-dependencies]
+criterion = "0.4"
+
+[[bench]]
+harness = false
+name = "day01"
+
+[[bench]]
+harness = false
+name = "day02"
+
+[[bench]]
+harness = false
+name = "day03"
+
+[[bench]]
+harness = false
+name = "day04"
+
+[[bench]]
+harness = false
+name = "day05"
+
+[[bench]]
+harness = false
+name = "day06"
+
+[[bench]]
+harness = false
+name = "day07"
+
+[[bench]]
+harness = false
+name = "day08"
+
+[[bench]]
+harness = false
+name = "day09"

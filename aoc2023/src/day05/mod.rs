@@ -38,7 +38,7 @@ fn map(maps: &Vec<Map>, x: usize) -> usize {
     }
 }
 
-fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     let mut lines = input.lines();
     let seeds = lines
         .next()

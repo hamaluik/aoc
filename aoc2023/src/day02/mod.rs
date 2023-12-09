@@ -68,7 +68,7 @@ fn power(game: (usize, usize, usize)) -> usize {
     game.0 * game.1 * game.2
 }
 
-fn part2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     input.lines().filter_map(parse_game).map(min_cubes).map(power).sum()
 }
 
