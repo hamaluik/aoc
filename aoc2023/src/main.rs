@@ -63,6 +63,7 @@ fn main() -> Result<()> {
                 (14, Some(input)) => (day14::run(&input), true),
                 (15, Some(input)) => (day15::run(&input), true),
                 (16, Some(input)) => (day16::run(&input), true),
+                (17, Some(input)) => (day17::run(&input), true),
                 _ => ((None, None), has_input),
             }
         })
