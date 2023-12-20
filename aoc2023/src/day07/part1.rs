@@ -167,7 +167,7 @@ pub fn part1(input: &str) -> usize {
     hands.sort();
     //eprintln!("hands:");
     // for (i, hand) in hands.iter().enumerate() {
-        //eprintln!("{:02} {hand} => {}", i + 1, (i + 1) * hand.bid);
+    //eprintln!("{:02} {hand} => {}", i + 1, (i + 1) * hand.bid);
     // }
 
     hands
@@ -262,5 +262,3 @@ QQQJA 483
         assert_eq!(part1(SAMPLE), 6440);
     }
 }
-
-

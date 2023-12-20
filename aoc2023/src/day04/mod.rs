@@ -5,17 +5,28 @@ pub fn part1(input: &str) -> usize {
             let mut parts = line.splitn(2, '|');
             let winning = parts.next().expect("winning half");
             let numbers = parts.next().expect("numbers half");
-            
-            let winning_numbers = winning.splitn(2, ':').skip(1).next().expect("list of winning numbers");
-            let winning_numbers = winning_numbers.trim().split_whitespace().collect::<Vec<&str>>();
-            
-            let matching_numbers = numbers.trim().split_whitespace().filter(|n| winning_numbers.contains(n));
+
+            let winning_numbers = winning
+                .splitn(2, ':')
+                .skip(1)
+                .next()
+                .expect("list of winning numbers");
+            let winning_numbers = winning_numbers
+                .trim()
+                .split_whitespace()
+                .collect::<Vec<&str>>();
+
+            let matching_numbers = numbers
+                .trim()
+                .split_whitespace()
+                .filter(|n| winning_numbers.contains(n));
 
             match matching_numbers.count() {
                 0 => 0,
-                n => 2_usize.pow(n as u32 - 1)
+                n => 2_usize.pow(n as u32 - 1),
             }
-        }).sum()
+        })
+        .sum()
 }
 
 pub fn part2(input: &str) -> usize {
@@ -25,10 +36,20 @@ pub fn part2(input: &str) -> usize {
         let winning = parts.next().expect("winning half");
         let numbers = parts.next().expect("numbers half");
 
-        let winning_numbers = winning.splitn(2, ':').skip(1).next().expect("list of winning numbers");
-        let winning_numbers = winning_numbers.trim().split_whitespace().collect::<Vec<&str>>();
+        let winning_numbers = winning
+            .splitn(2, ':')
+            .skip(1)
+            .next()
+            .expect("list of winning numbers");
+        let winning_numbers = winning_numbers
+            .trim()
+            .split_whitespace()
+            .collect::<Vec<&str>>();
 
-        let matching_numbers = numbers.trim().split_whitespace().filter(|n| winning_numbers.contains(n));
+        let matching_numbers = numbers
+            .trim()
+            .split_whitespace()
+            .filter(|n| winning_numbers.contains(n));
         lines.push((line, matching_numbers.count()));
     }
 
@@ -69,4 +90,3 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"#;
         assert_eq!(part2(SAMPLE), 30);
     }
 }
-

@@ -389,8 +389,7 @@ fn is_part_accepted<'s>(workflows: &'s HashMap<&'s str, Workflow<'s>>, part: Par
                     Condition::LessThan => value < check.value,
                     Condition::GreaterThan => value > check.value,
                 }
-            }
-            else {
+            } else {
                 // always apply rule if there is no check
                 // (this should only happen on the last rule)
                 true
@@ -402,7 +401,7 @@ fn is_part_accepted<'s>(workflows: &'s HashMap<&'s str, Workflow<'s>>, part: Par
                     Action::GotoWorkflow(name) => {
                         workflow = workflows.get(name).expect("workflow exists");
                         continue 'workflows;
-                    },
+                    }
                 }
             }
         }

@@ -61,8 +61,7 @@ pub fn part2(input: &str) -> usize {
         .lines()
         .enumerate()
         .flat_map(|(y, line)| {
-            line
-                .chars()
+            line.chars()
                 .enumerate()
                 .filter_map(move |(x, c)| if is_gear(c) { Some(((x, y), c)) } else { None })
         })

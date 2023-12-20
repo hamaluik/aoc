@@ -49,8 +49,7 @@ pub fn part2(input: &str) -> usize {
             // else {
             //     eprintln!("Tried to remove {} from box {} but it wasn't there", label, box_number);
             // }
-        }
-        else if step.contains('=') {
+        } else if step.contains('=') {
             // add!
             let lens = step.split('=').skip(1).next().expect("lens");
             let len = lens.parse::<usize>().expect("lens number");
@@ -84,8 +83,7 @@ pub fn part2(input: &str) -> usize {
         .enumerate()
         .map(|(i, boxx)| {
             let box_num = i + 1;
-            boxx
-                .into_iter()
+            boxx.into_iter()
                 .enumerate()
                 .map(|(j, (_, focal_len))| {
                     let slot_num = j + 1;

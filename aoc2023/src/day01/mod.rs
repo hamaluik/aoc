@@ -7,15 +7,17 @@ fn parse_digit(c: char) -> usize {
 }
 
 pub fn part1(input: &str) -> usize {
-    input.lines().filter_map(|l| {
-        let a = l.chars().find(is_digit);
-        let b = l.chars().rev().find(is_digit);
-        match (a, b) {
-            (Some(a), Some(b)) => Some((parse_digit(a) * 10) + parse_digit(b)),
-            _ => None,
-        }
-    })
-    .sum()
+    input
+        .lines()
+        .filter_map(|l| {
+            let a = l.chars().find(is_digit);
+            let b = l.chars().rev().find(is_digit);
+            match (a, b) {
+                (Some(a), Some(b)) => Some((parse_digit(a) * 10) + parse_digit(b)),
+                _ => None,
+            }
+        })
+        .sum()
 }
 
 const NUMBERS: [(&'static str, usize); 19] = [
@@ -57,15 +59,17 @@ fn find_number_rev(line: &str) -> Option<usize> {
 }
 
 pub fn part2(input: &str) -> usize {
-    input.lines().filter_map(|l| {
-        let left = find_number_fwd(l);
-        let right = find_number_rev(l);
-        match (left, right) {
-            (Some(left), Some(right)) => Some(left * 10 + right),
-            _ => None,
-        }
-    })
-    .sum()
+    input
+        .lines()
+        .filter_map(|l| {
+            let left = find_number_fwd(l);
+            let right = find_number_rev(l);
+            match (left, right) {
+                (Some(left), Some(right)) => Some(left * 10 + right),
+                _ => None,
+            }
+        })
+        .sum()
 }
 
 pub fn run(input: &str) -> (Option<usize>, Option<usize>) {
@@ -75,11 +79,11 @@ pub fn run(input: &str) -> (Option<usize>, Option<usize>) {
 #[cfg(test)]
 mod test {
     use super::*;
-        const SAMPLE1: &'static str = r#"1abc2
+    const SAMPLE1: &'static str = r#"1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
 treb7uchet"#;
-        const SAMPLE2: &'static str = r#"two1nine
+    const SAMPLE2: &'static str = r#"two1nine
 eightwothree
 abcone2threexyz
 xtwone3four
@@ -97,4 +101,3 @@ zoneight234
         assert_eq!(part2(SAMPLE2), 281);
     }
 }
-

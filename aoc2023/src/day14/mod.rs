@@ -162,8 +162,7 @@ pub fn part2(input: &str) -> usize {
                 spin_cycle(&mut map);
             }
             return calculate_load(&map.map);
-        }
-        else {
+        } else {
             history.insert(hash, i);
             spin_cycle(&mut map);
             i += 1;

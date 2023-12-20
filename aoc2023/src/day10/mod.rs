@@ -187,7 +187,12 @@ fn find_start(map: &Vec<Vec<Pipe>>) -> (usize, usize) {
 pub fn part1(input: &str) -> usize {
     let map = parse(input);
     let loop_start = LoopStart::from(map);
-    loop_start.into_iter().last().map(|s| s.distance).expect("loop") / 2
+    loop_start
+        .into_iter()
+        .last()
+        .map(|s| s.distance)
+        .expect("loop")
+        / 2
 }
 
 pub fn part2(input: &str) -> usize {
@@ -223,8 +228,7 @@ pub fn part2(input: &str) -> usize {
                 if dy == 1 {
                     // moved down
                     winding += 1;
-                }
-                else if dy == -1 {
+                } else if dy == -1 {
                     // moved up
                     winding -= 1;
                 }

@@ -104,11 +104,12 @@ fn main() -> Result<()> {
         })
         .collect();
 
-    let (p1_width, p2_width) = results
-        .iter()
-        .fold((0, 0), |(p1_width, p2_width), ((p1, _), (p2, _), _)| {
-            (p1_width.max(p1.len()), p2_width.max(p2.len()))
-        });
+    let (p1_width, p2_width) =
+        results
+            .iter()
+            .fold((0, 0), |(p1_width, p2_width), ((p1, _), (p2, _), _)| {
+                (p1_width.max(p1.len()), p2_width.max(p2.len()))
+            });
     let p1_width = p1_width.max("Part 1".len());
     let p2_width = p2_width.max("Part 2".len());
 
@@ -146,8 +147,7 @@ fn main() -> Result<()> {
         if elapsed != "0.000000s" {
             stdout.set_color(ColorSpec::new().set_fg(Some(Color::Cyan)))?;
             write!(stdout, "{elapsed}")?;
-        }
-        else {
+        } else {
             stdout.set_color(ColorSpec::new().set_fg(None))?;
             write!(stdout, "         ")?;
         }

@@ -1,6 +1,6 @@
 use anyhow::{Context, Result};
 use chrono::TimeZone;
-use dialoguer::{theme::ColorfulTheme, Input, Confirm};
+use dialoguer::{theme::ColorfulTheme, Confirm, Input};
 
 pub fn load_inputs() -> Result<()> {
     let inputs = check_missing_inputs();
@@ -13,7 +13,7 @@ pub fn load_inputs() -> Result<()> {
         println!("    Day {}", day);
     }
     println!();
-    
+
     let confirm = Confirm::with_theme(&ColorfulTheme::default())
         .with_prompt("Do you want to download these inputs now?")
         .interact()

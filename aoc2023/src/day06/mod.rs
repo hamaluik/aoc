@@ -22,38 +22,40 @@ pub fn part1(input: &str) -> usize {
         .skip(1)
         .map(|s| s.parse::<usize>().unwrap());
 
-    race_duration.zip(distance_record).map(|(t, record)| {
-        // let t_hold_max = t / 2;
-        let t_hold_record = roots(
-            -(ACCELERATION as f64),
-            (ACCELERATION * t) as f64,
-            -(record as f64),
-        );
-        let t_hold_record = (
-            t_hold_record.0.ceil() as usize,
-            t_hold_record.1.ceil() as usize,
-        );
+    race_duration
+        .zip(distance_record)
+        .map(|(t, record)| {
+            // let t_hold_max = t / 2;
+            let t_hold_record = roots(
+                -(ACCELERATION as f64),
+                (ACCELERATION * t) as f64,
+                -(record as f64),
+            );
+            let t_hold_record = (
+                t_hold_record.0.ceil() as usize,
+                t_hold_record.1.ceil() as usize,
+            );
 
-        // let d_max = ACCELERATION * t_hold_max * (t - t_hold_max);
-        let d_record = (
-            ACCELERATION * t_hold_record.0 * (t - t_hold_record.0),
-            ACCELERATION * t_hold_record.1 * (t - t_hold_record.1),
-        );
+            // let d_max = ACCELERATION * t_hold_max * (t - t_hold_max);
+            let d_record = (
+                ACCELERATION * t_hold_record.0 * (t - t_hold_record.0),
+                ACCELERATION * t_hold_record.1 * (t - t_hold_record.1),
+            );
 
-        let mut count = t_hold_record.1 - t_hold_record.0;
-        if d_record.0 == d_record.1 {
-            count -= 1;
-        }
-        // eprintln!("t: {}, record: {}", t, record);
-        // eprintln!(
-        //     "t_hold_max: {}, t_hold_record: {:?}, count: {}",
-        //     t_hold_max, t_hold_record, count
-        // );
-        // eprintln!("d_max: {}, d_record: {:?}", d_max, d_record);
-        // eprintln!();
-        count
-    })
-    .fold(1, |acc, count| acc * count)
+            let mut count = t_hold_record.1 - t_hold_record.0;
+            if d_record.0 == d_record.1 {
+                count -= 1;
+            }
+            // eprintln!("t: {}, record: {}", t, record);
+            // eprintln!(
+            //     "t_hold_max: {}, t_hold_record: {:?}, count: {}",
+            //     t_hold_max, t_hold_record, count
+            // );
+            // eprintln!("d_max: {}, d_record: {:?}", d_max, d_record);
+            // eprintln!();
+            count
+        })
+        .fold(1, |acc, count| acc * count)
 }
 
 pub fn part2(input: &str) -> usize {
@@ -133,5 +135,3 @@ Distance:  9  40  200"#;
         assert_eq!(part2(SAMPLE), 71503);
     }
 }
-
-

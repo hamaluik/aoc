@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use rayon::prelude::*;
+use std::collections::HashMap;
 
 #[derive(Debug, Clone, Copy)]
 enum Direction {
@@ -86,7 +86,8 @@ pub fn part2(input: &str) -> usize {
                     return i;
                 }
             }
-        }).collect::<Vec<usize>>();
+        })
+        .collect::<Vec<usize>>();
     lcm(nodes)
 }
 

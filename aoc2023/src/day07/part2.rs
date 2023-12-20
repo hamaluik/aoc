@@ -108,9 +108,7 @@ impl PartialOrd for Hand {
                 }
                 Some(std::cmp::Ordering::Equal)
             }
-            o => {
-                Some(o)
-            }
+            o => Some(o),
         }
     }
 }
@@ -153,23 +151,20 @@ impl Hand {
                 [5] => HandType::FiveOfAKind,
                 _ => panic!("invalid hand"),
             }
-        }
-        else {
+        } else {
             match counts.len() {
                 0 | 1 => HandType::FiveOfAKind,
                 2 => {
                     if counts[0] == &1 {
                         HandType::FourOfAKind
-                    }
-                    else {
+                    } else {
                         HandType::FullHouse
                     }
                 }
                 3 => {
                     if counts[0] == &1 {
                         HandType::ThreeOfAKind
-                    }
-                    else {
+                    } else {
                         HandType::TwoPair
                     }
                 }
@@ -254,7 +249,13 @@ QQQJA 483
         assert_eq!(
             hand,
             Hand {
-                cards: [Card::Queen, Card::Queen, Card::Queen, Card::Joker, Card::Ace],
+                cards: [
+                    Card::Queen,
+                    Card::Queen,
+                    Card::Queen,
+                    Card::Joker,
+                    Card::Ace
+                ],
                 hand_type: HandType::FourOfAKind,
                 bid: 483
             }
@@ -279,6 +280,3 @@ QQQJA 483
         assert_eq!(part2(SAMPLE), 5905);
     }
 }
-
-
-

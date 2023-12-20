@@ -52,7 +52,8 @@ pub fn part1(input: &str) -> usize {
                     }
                 }
                 return true;
-            }).collect::<Vec<_>>();
+            })
+            .collect::<Vec<_>>();
         for v in neighbours.into_iter() {
             let cost = grid.get(v.0, v.1) as usize;
             let alt = dist.get(x, y) + cost;
@@ -82,17 +83,13 @@ pub fn part1(input: &str) -> usize {
     for (s, l) in s.iter().skip(1).zip(s.iter()) {
         let dir = if s.0 > l.0 {
             '←'
-        }
-        else if s.0 < l.0 {
+        } else if s.0 < l.0 {
             '→'
-        }
-        else if s.1 > l.1 {
+        } else if s.1 > l.1 {
             '↑'
-        }
-        else if s.1 < l.1 {
+        } else if s.1 < l.1 {
             '↓'
-        }
-        else {
+        } else {
             unreachable!()
         };
         draw_grid.set(s.0, s.1, dir);
@@ -110,9 +107,7 @@ pub fn part1(input: &str) -> usize {
     //     println!();
     // }
 
-    s.into_iter()
-        .map(|(x, y)| grid.get(x, y) as usize)
-        .sum()
+    s.into_iter().map(|(x, y)| grid.get(x, y) as usize).sum()
 }
 
 pub fn part2(_input: &str) -> usize {

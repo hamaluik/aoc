@@ -22,7 +22,7 @@ mod parse {
         character::complete::{anychar, char, digit1, space1},
         combinator::{map, map_res},
         multi::many0,
-        sequence::{delimited, pair, tuple, preceded},
+        sequence::{delimited, pair, preceded, tuple},
         IResult,
     };
 
@@ -61,17 +61,19 @@ mod parse {
     }
 
     fn parse_part2_hex(input: &str) -> IResult<&str, Instruction> {
-        pair(preceded(char('#'), parse_part2_distance), parse_part2_direction)(input).map(
-            |(input, (distance, direction))| {
-                (
-                    input,
-                    Instruction {
-                        distance: distance as isize,
-                        direction,
-                    },
-                )
-            },
-        )
+        pair(
+            preceded(char('#'), parse_part2_distance),
+            parse_part2_direction,
+        )(input)
+        .map(|(input, (distance, direction))| {
+            (
+                input,
+                Instruction {
+                    distance: distance as isize,
+                    direction,
+                },
+            )
+        })
     }
 
     pub fn parse_instruction_part_1(input: &str) -> IResult<&str, Instruction> {
