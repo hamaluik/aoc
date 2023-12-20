@@ -1,0 +1,19 @@
+# sr.ht tests
+image: archlinux
+packages:
+  - rustup
+sources:
+  - https://git.sr.ht/~hamaluik/aoc
+tasks:
+  - setup: |
+      rustup set profile minimal
+      rustup default stable
+  - version: |
+      rustc -V
+  - test: |
+      cd aoc/aoc2023
+      cargo test
+triggers:
+  - action: email
+    condition: failure
+    to: kenton@hamaluik.ca
