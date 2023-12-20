@@ -3,9 +3,6 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./aoc20203
     steps:
       - uses: actions/checkout@v1
       - uses: actions-rs/toolchain@v1
@@ -14,3 +11,4 @@ jobs:
           override: true
       - name: test
         run: cargo test
+        working-directory: aoc20203
