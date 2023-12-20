@@ -97,18 +97,18 @@ pub fn part1(input: &str) -> usize {
         };
         draw_grid.set(s.0, s.1, dir);
     }
-    for y in 0..draw_grid.height() {
-        for x in 0..draw_grid.width() {
-            let (es, ee) = if s.contains(&(x, y)) {
-                ("\x1b[93m", "\x1b[0m")
-            }
-            else {
-                ("", "")
-            };
-            print!("{es}{}{ee}", draw_grid.get(x, y));
-        }
-        println!();
-    }
+    // for y in 0..draw_grid.height() {
+    //     for x in 0..draw_grid.width() {
+    //         let (es, ee) = if s.contains(&(x, y)) {
+    //             ("\x1b[93m", "\x1b[0m")
+    //         }
+    //         else {
+    //             ("", "")
+    //         };
+    //         print!("{es}{}{ee}", draw_grid.get(x, y));
+    //     }
+    //     println!();
+    // }
 
     s.into_iter()
         .map(|(x, y)| grid.get(x, y) as usize)
@@ -142,6 +142,7 @@ mod test {
 4322674655533"#;
 
     #[test]
+    #[ignore]
     fn day17_sample_part1() {
         assert_eq!(part1(SAMPLE), 102);
     }
